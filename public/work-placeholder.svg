@@ -1,0 +1,15 @@
+<svg width="720" height="520" viewBox="0 0 720 520" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="720" height="520" rx="32" fill="#111821"/>
+  <rect x="32" y="32" width="656" height="456" rx="24" fill="url(#paint0_linear)"/>
+  <rect x="64" y="72" width="280" height="18" rx="9" fill="rgba(244, 184, 58, 0.6)"/>
+  <rect x="64" y="108" width="200" height="12" rx="6" fill="rgba(245, 245, 240, 0.5)"/>
+  <rect x="64" y="140" width="140" height="12" rx="6" fill="rgba(245, 245, 240, 0.35)"/>
+  <circle cx="544" cy="182" r="120" fill="rgba(244, 184, 58, 0.15)"/>
+  <circle cx="560" cy="190" r="70" fill="rgba(245, 245, 240, 0.08)"/>
+  <defs>
+    <linearGradient id="paint0_linear" x1="32" y1="32" x2="688" y2="488" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#1A2230"/>
+      <stop offset="1" stop-color="#0F141C"/>
+    </linearGradient>
+  </defs>
+</svg>
