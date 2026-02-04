@@ -1,47 +1,20 @@
 "use client";
 
 import Image from "next/image";
-import type { ReactNode } from "react";
-import { useEffect, useMemo, useRef, useState } from "react";
-import { blogPosts, navLinks, services, socials, testimonials, workCategories, works, type WorkCategory, type WorkItem } from "./data/works";
-
-type RevealProps = {
-  children: ReactNode;
-  className?: string;
-  delay?: number;
-};
-
-const Reveal = ({ children, className = "", delay = 0 }: RevealProps) => {
-  const ref = useRef<HTMLDivElement | null>(null);
-  const [visible, setVisible] = useState(false);
-
-  useEffect(() => {
-    if (!ref.current) return;
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setVisible(true);
-          observer.disconnect();
-        }
-      },
-      { threshold: 0.2 }
-    );
-    observer.observe(ref.current);
-    return () => observer.disconnect();
-  }, []);
-
-  return (
-    <div
-      ref={ref}
-      className={`transition-all duration-700 ease-out ${
-        visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
-      } ${className}`}
-      style={{ transitionDelay: `${delay}ms` }}
-    >
-      {children}
-    </div>
-  );
-};
+import { useEffect, useMemo, useState } from "react";
+import {
+  blogPosts,
+  navLinks,
+  services,
+  socials,
+  testimonials,
+  workCategories,
+  works,
+  type WorkCategory,
+  type WorkItem,
+} from "./data/works";
+import { Reveal } from "@/components/shared/reveal";
+import BeforeAfterSlider from "@/components/shared/before-after-slider";
 
 export default function Home() {
   const [activeSection, setActiveSection] = useState("hero");
@@ -49,22 +22,21 @@ export default function Home() {
   const [selectedWork, setSelectedWork] = useState<WorkItem | null>(null);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isMobileMenuBlurOpen, setIsMobileMenuBlurOpen] = useState(false);
-  
+
   useEffect(() => {
-  if (!isMobileMenuOpen) {
-    const timeoutId = setTimeout(() => {
-      setIsMobileMenuBlurOpen(false);
-    }, 150);
-    return () => clearTimeout(timeoutId);
-  }
-}, [isMobileMenuOpen]);
+    if (!isMobileMenuOpen) {
+      const timeoutId = setTimeout(() => {
+        setIsMobileMenuBlurOpen(false);
+      }, 150);
+      return () => clearTimeout(timeoutId);
+    }
+  }, [isMobileMenuOpen]);
 
- useEffect(() => {
-  if (isMobileMenuBlurOpen) {
-    setIsMobileMenuOpen(true);
-  }
-}, [isMobileMenuBlurOpen]);
-
+  useEffect(() => {
+    if (isMobileMenuBlurOpen) {
+      setIsMobileMenuOpen(true);
+    }
+  }, [isMobileMenuBlurOpen]);
 
   useEffect(() => {
     const sections = navLinks.map((link) => document.getElementById(link.id));
@@ -76,7 +48,7 @@ export default function Home() {
           }
         });
       },
-      { threshold: 0.4 }
+      { threshold: 0.4 },
     );
     sections.forEach((section) => section && observer.observe(section));
     return () => observer.disconnect();
@@ -105,7 +77,7 @@ export default function Home() {
           <div className="flex items-center justify-between gap-4">
             <div className="flex items-center gap-3 text-sm font-semibold uppercase tracking-[0.2em] text-(--accent)">
               <span className="h-2 w-2 rounded-full bg-(--accent) shadow-[0_0_20px_rgba(244,184,58,0.8)]" />
-                MENAD
+              MENAD
             </div>
             <a
               href="#contact"
@@ -114,13 +86,13 @@ export default function Home() {
               Let&apos;s Talk
             </a>
             <button
-                type="button"
-                onClick={() => setIsMobileMenuBlurOpen(true)}
-                className="flex sm:hidden h-10 w-10 items-center justify-center rounded-full border border-white/10 text-foreground transition hover:border-(--accent) hover:text-(--accent) focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-(--accent)"
-                aria-label="Open navigation menu"
-              >
-                ☰
-              </button>
+              type="button"
+              onClick={() => setIsMobileMenuBlurOpen(true)}
+              className="flex sm:hidden h-10 w-10 items-center justify-center rounded-full border border-white/10 text-foreground transition hover:border-(--accent) hover:text-(--accent) focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-(--accent)"
+              aria-label="Open navigation menu"
+            >
+              ☰
+            </button>
           </div>
           <nav className="hidden sm:flex items-center gap-6 overflow-x-auto text-sm font-medium text-(--muted)">
             {navLinks.map((link) => (
@@ -165,8 +137,9 @@ export default function Home() {
               Graphic Designer &amp; Video Editor
             </p>
             <p className="mt-6 max-w-xl text-base leading-relaxed text-(--muted) sm:text-lg">
-              I craft premium visual identities, motion-forward edits, and high-impact
-              YouTube packaging for ambitious brands and creators who want to stand out.
+              I craft premium visual identities, motion-forward edits, and
+              high-impact YouTube packaging for ambitious brands and creators
+              who want to stand out.
             </p>
             <div className="mt-10 flex flex-wrap gap-4">
               <a
@@ -200,20 +173,19 @@ export default function Home() {
             <div className="absolute -left-6 top-10 h-40 w-40 rounded-full bg-[rgba(244,184,58,0.12)] blur-3xl" />
             <div className="relative overflow-hidden rounded-4xl border border-white/10 bg-(--card) shadow-[0_30px_80px_rgba(0,0,0,0.35)]">
               <Image
-                src="/portrait-placeholder.svg"
+                src="/assets/profile.jpg"
                 alt="Portrait placeholder"
                 width={640}
                 height={720}
                 className="h-full w-full object-cover"
                 priority
               />
-              <div className="absolute bottom-6 left-6 rounded-full border border-white/10 bg-[rgba(11,15,20,0.7)] px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-foreground backdrop-blur">
-                Available for new projects
+              <div className="absolute bottom-6 left-6 rounded-full border border-white/10 bg-[rgba(11,15,20,0.7)] px-4 py-2 text-xs font-semibold tracking-[0.2em] text-foreground backdrop-blur">
+                Accepting Projects
               </div>
             </div>
           </Reveal>
         </section>
-
         <section id="services" className="flex flex-col gap-10">
           <Reveal>
             <p className="text-xs font-semibold uppercase tracking-[0.3em] text-(--accent)">
@@ -223,8 +195,8 @@ export default function Home() {
               Elevated design solutions for modern brands.
             </h2>
             <p className="mt-4 max-w-2xl text-base text-(--muted) sm:text-lg">
-              From identity systems to motion-first content, every deliverable is crafted
-              to feel refined, cohesive, and ready to launch.
+              From identity systems to motion-first content, every deliverable
+              is crafted to feel refined, cohesive, and ready to launch.
             </p>
           </Reveal>
           <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
@@ -257,7 +229,8 @@ export default function Home() {
                   Selected projects with visual impact.
                 </h2>
                 <p className="mt-3 max-w-2xl text-base text-(--muted) sm:text-lg">
-                  Explore a curated mix of branding, motion, and short-form storytelling.
+                  Explore a curated mix of branding, motion, and short-form
+                  storytelling.
                 </p>
               </div>
               <div className="flex flex-wrap gap-2">
@@ -280,15 +253,15 @@ export default function Home() {
           </Reveal>
           <div className="grid gap-6 lg:grid-cols-2">
             {filteredWorks.map((work, index) => (
-              <Reveal key={work.id} delay={index * 120}>
+              <Reveal key={work.id} delay={index * 120} className="h-125">
                 <button
                   type="button"
                   onClick={() => setSelectedWork(work)}
                   className="group flex h-full w-full flex-col overflow-hidden rounded-3xl border border-white/10 bg-(--card) text-left shadow-[0_24px_60px_rgba(0,0,0,0.3)] transition duration-300 hover:-translate-y-2 hover:border-(--accent) focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-(--accent)"
                 >
-                  <div className="relative h-56 w-full overflow-hidden">
+                  <div className="relative flex-1 w-full overflow-hidden">
                     <Image
-                      src={work.coverImage}
+                      src={work.coverImage!}
                       alt={work.title}
                       width={720}
                       height={520}
@@ -298,13 +271,10 @@ export default function Home() {
                       {work.category}
                     </span>
                   </div>
-                  <div className="flex flex-1 flex-col gap-3 p-6">
+                  <div className="flex flex-col gap-3 p-6">
                     <h3 className="text-xl font-semibold text-foreground">
                       {work.title}
                     </h3>
-                    <p className="text-sm leading-relaxed text-(--muted)">
-                      {work.description}
-                    </p>
                     <span className="mt-auto text-xs font-semibold uppercase tracking-[0.3em] text-(--accent)">
                       View Project
                     </span>
@@ -322,7 +292,7 @@ export default function Home() {
             </p>
             <h2 className="mt-4 text-3xl font-semibold text-foreground sm:text-4xl">
               Trusted by founders and creative teams.
-            </h2>720
+            </h2>
           </Reveal>
           <div className="grid gap-6 lg:grid-cols-3">
             {testimonials.map((testimonial, index) => (
@@ -438,7 +408,9 @@ export default function Home() {
                   <p className="mt-4 text-lg font-semibold text-foreground">
                     abdougolden12@gmail.com
                   </p>
-                  <p className="mt-2 text-sm text-(--muted)">Ouedhriou, Relizane. Algerian</p>
+                  <p className="mt-2 text-sm text-(--muted)">
+                    Ouedhriou, Relizane. Algerian
+                  </p>
                 </div>
                 <div className="flex flex-wrap gap-3">
                   {socials.map((social) => (
@@ -471,17 +443,26 @@ export default function Home() {
           onClick={() => setSelectedWork(null)}
         >
           <div
-            className="max-h-[90vh] w-full max-w-3xl overflow-y-auto rounded-3xl border border-white/10 bg-(--card) shadow-[0_30px_80px_rgba(0,0,0,0.5)]"
+            className="max-h-[90vh] flex flex-col min-h-[80vh] w-full max-w-3xl overflow-y-auto rounded-3xl border border-white/10 bg-(--card) shadow-[0_30px_80px_rgba(0,0,0,0.5)]"
             onClick={(event) => event.stopPropagation()}
           >
-            <div className="relative h-64 w-full">
-              <Image
-                src={selectedWork.coverImage}
-                alt={selectedWork.title}
-                width={720}
-                height={520}
-                className="h-full w-full object-cover"
-              />
+            <div className="relative flex-1 h-[60vh] w-full">
+              {selectedWork.beforeSrc && selectedWork.afterSrc ? (
+                <BeforeAfterSlider
+                  beforeSrc={selectedWork.beforeSrc}
+                  afterSrc={selectedWork.afterSrc}
+                  beforeAlt={selectedWork.beforeAlt!}
+                  afterAlt={selectedWork.afterAlt!}
+                />
+              ) : (
+                <Image
+                  src={selectedWork.coverImage!}
+                  alt={selectedWork.title}
+                  width={720}
+                  height={520}
+                  className="h-full w-full object-cover"
+                />
+              )}
               <button
                 type="button"
                 onClick={() => setSelectedWork(null)}
@@ -503,12 +484,6 @@ export default function Home() {
               <p className="text-sm leading-relaxed text-(--muted)">
                 {selectedWork.description}
               </p>
-              <a
-                href={selectedWork.link}
-                className="inline-flex items-center text-xs font-semibold uppercase tracking-[0.2em] text-foreground hover:text-(--accent)"
-              >
-                View full project →
-              </a>
             </div>
           </div>
         </div>
@@ -522,7 +497,7 @@ export default function Home() {
           onClick={() => setIsMobileMenuOpen(false)}
         >
           <div
-            className={`absolute right-0 top-0 flex h-full w-72  ${ isMobileMenuOpen ? 'translate-x-0' : 'translate-x-full' } transition-all flex-col gap-6 border-l border-white/10 bg-(--card) p-6 shadow-[0_30px_80px_rgba(0,0,0,0.45)]`}
+            className={`absolute right-0 top-0 flex h-full w-72  ${isMobileMenuOpen ? "translate-x-0" : "translate-x-full"} transition-all flex-col gap-6 border-l border-white/10 bg-(--card) p-6 shadow-[0_30px_80px_rgba(0,0,0,0.45)]`}
             onClick={(event) => event.stopPropagation()}
           >
             <div className="flex items-center justify-between">
